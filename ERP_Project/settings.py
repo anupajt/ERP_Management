@@ -104,16 +104,22 @@ WSGI_APPLICATION = 'ERP_Project.wsgi.application'
 
 
 import psycopg2
+import dj_database_url
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'erp_db',          
+#         'USER': 'postgres',          
+#         'PASSWORD': '1234',  
+#         'HOST': 'localhost',         
+#         'PORT': '5432',             
+#     }
+# }
+
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'erp_db',          
-        'USER': 'postgres',          
-        'PASSWORD': '1234',  
-        'HOST': 'localhost',         
-        'PORT': '5432',             
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
 
