@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="edit-user-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card edit-user-card">
+          <div class="card-header">
+            <h2 >
+              <i class="bi bi-pencil-square"></i>
+              Edit User
+            </h2>
+          </div>
+          
+          <div class="card-body">
+            <div class="user-info">
+              <div class="d-flex align-items-center">
+                <div class="user-avatar">
+                  {{ user.first_name|first }}{{ user.last_name|first }}
+                </div>
+                <div>
+                  <h5>{{ user.first_name }} {{ user.last_name }}</h5>
+                  <span class="text-muted">{{ user.email }}</span>
+                  {% if user.role %}
+                  <div class="mt-2">
+                    <span class="role-badge {% if user.role == 'ADMIN' %}admin{% elif user.role == 'MANAGER' %}manager{% else %}employee{% endif %}">
+                      {{ user.get_role_display }}
+                    </span>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            
+            <form method="post">
+              {% csrf_token %}
+              
+              <div class="form-section">
+                <h6>Personal Information</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="first_name" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="first_name" name="first_name"
+                             value="{{ user.first_name }}" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="last_name" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="last_name" name="last_name"
+                             value="{{ user.last_name }}" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h6>Contact Information</h6>
+                <div class="form-group">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email"
+                         value="{{ user.email }}" required>
+                </div>
+              </div>
+              
+              {% if request.user.role == 'ADMIN' %}
+              <div class="form-section">
+                <h6>System Access</h6>
+                <div class="form-group">
+                  <label for="role" class="form-label">User Role</label>
+                  <select class="form-select" id="role" name="role">
+                    <option value="EMPLOYEE" {% if user.role == 'EMPLOYEE' %}selected{% endif %}>Employee</option>
+                    <option value="MANAGER" {% if user.role == 'MANAGER' %}selected{% endif %}>Manager</option>
+                    <option value="ADMIN" {% if user.role == 'ADMIN' %}selected{% endif %}>Admin</option>
+                  </select>
+                  <small class="form-text text-muted">
+                    User roles determine system access permissions.
+                  </small>
+                </div>
+              </div>
+              {% endif %}
+              
+              <div class="button-container">
+                <div class="d-flex justify-content-between">
+                  <a href="{% if request.user.role == 'ADMIN' %}{% url 'user_list' %}{% else %}{% url 'profile' %}{% endif %}"
+                     class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Cancel
+                  </a>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check2 me-1"></i>Save Changes
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user_edit.css' %}">
+{% endblock %}
+{% endblock %}

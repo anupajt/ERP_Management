@@ -1,0 +1,174 @@
+/* register.css */
+
+/* Variables */
+:root {
+    --primary-color: #4a6cf7;
+    --primary-hover: #3558e6;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --border-color: #e0e0e0;
+    --text-color: #333333;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --input-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+/* Container */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    padding: 2rem 1rem;
+    background-color: var(--light-bg);
+}
+
+/* Card - Modified width and height */
+.register-card {
+    width: 90%;
+    max-width: 800px; /* Increased from 500px to 800px */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    height: auto; /* Changed from 50% to auto */
+    min-height: 500px; /* Reduced height */
+}
+
+.card-header {
+    padding: 1.5rem; /* Reduced padding */
+    background: linear-gradient(135deg, var(--primary-color), #6c8dff);
+    color: white;
+    text-align: center;
+}
+
+.card-header h2 {
+    font-size: 1.8rem; /* Slightly smaller */
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 0.9rem; /* Slightly smaller */
+    opacity: 0.9;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem; /* Reduced padding */
+}
+
+/* Form elements */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem; /* Reduced spacing */
+    width: 100%;
+}
+
+.form-group.half {
+    flex: 1;
+    min-width: 200px;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: var(--input-shadow);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
+}
+
+.password-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    margin-top: 0.25rem;
+}
+
+/* Button */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 0.85rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Login link */
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-group.half {
+        width: 100%;
+    }
+    
+    .card-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="card-header">
+            <h2>Create an Account</h2>
+            <p class="subtitle">Join us today and get started</p>
+        </div>
+        
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="form-group half">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="password1">Password</label>
+                        <input type="password" id="password1" name="password1" required>
+                        
+                    </div>
+                    <div class="form-group half">
+                        <label for="password2">Confirm Password</label>
+                        <input type="password" id="password2" name="password2" required>
+                    </div>
+                </div>
+                
+                {% if user.is_authenticated and user.role == 'ADMIN' %}
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role">
+                        <option value="EMPLOYEE">Employee</option>
+                        <option value="MANAGER">Manager</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+                {% endif %}
+                
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </div>
+            </form>
+            
+            {% if not user.is_authenticated %}
+            <div class="login-link">
+                <p>Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% endblock %}

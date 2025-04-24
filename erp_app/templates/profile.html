@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %}My Profile{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8 col-md-10">
+            <div class="card profile-card shadow-lg border-0 rounded-lg">
+                
+                <div class="card-header bg-primary text-white d-flex align-items-center py-3 position-relative">               
+                    <h2 class="mb-0 h4 mx-auto"> 
+                        <i class="bi bi-person-badge me-2"></i>My Profile
+                    </h2>                
+                    {% if user.is_staff or user.role == 'ADMIN' %}
+                    <a href="{% url 'edit_user' user.id %}" class="btn btn-light btn-sm edit-profile-btn"> 
+                        <i class="bi bi-pencil-square me-1"></i> Edit Profile
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="card-body p-4 p-md-5">                
+                    <div class="profile-avatar text-center mb-4">                   
+                        <i class="bi bi-person-circle display-1 text-secondary mb-3"></i>                     
+                        <h3 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h3>
+                        
+                        <span class="badge fs-6 role-badge
+                            {% if user.role == 'ADMIN' %}role-admin
+                            {% elif user.role == 'MANAGER' %}role-manager
+                            {% else %}role-employee{% endif %}">
+                            <i class="bi 
+                               {% if user.role == 'ADMIN' %}bi-shield-lock-fill
+                               {% elif user.role == 'MANAGER' %}bi-briefcase-fill
+                               {% else %}bi-person-fill{% endif %} me-1"></i>
+                            {{ user.get_role_display }}
+                        </span>
+                    </div>
+
+                    <hr class="divider my-4">
+
+                    <div class="row profile-info">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h5 class="info-heading text-muted mb-3"><i class="bi bi-person-lines-fill me-2"></i>Personal Information</h5>
+                            <ul class="info-list list-unstyled mb-0">
+                                <li class="info-item mb-2">
+                                    <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                                    <strong>Email:</strong> {{ user.email }}
+                                </li>
+                                <li class="info-item mb-2">
+                                    <i class="bi bi-person-fill me-2 text-primary"></i>
+                                    <strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5 class="info-heading text-muted mb-3"><i class="bi bi-info-circle-fill me-2"></i>Account Information</h5>
+                             <ul class="info-list list-unstyled mb-0">
+                                <li class="info-item mb-2">
+                                    <i class="bi bi-calendar-check-fill me-2 text-success"></i>
+                                    <strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}
+                                </li>
+                                <li class="info-item">
+                                    <i class="bi bi-clock-history me-2 text-info"></i>
+                                    <strong>Last Login:</strong> 
+                                    {% if user.last_login %}
+                                        {{ user.last_login|date:"F j, Y, P" }} 
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center py-3 bg-light border-top-0">
+                     <small class="text-muted">User ID: {{ user.id }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+{% endblock %}
