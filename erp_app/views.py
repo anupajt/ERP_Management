@@ -115,6 +115,7 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.core.cache import cache
 from django.views.decorators.cache import never_cache
+from django.core.paginator import Paginator
 
 
 def home_view(request):
@@ -166,13 +167,11 @@ def register_view(request):
             
         except Exception as e:
             messages.error(request, f"Error: {str(e)}")
-
    
     context = {}
     if request.user.is_authenticated and request.user.role == User.Role.ADMIN:
         context['role_choices'] = User.Role.choices
     return render(request, 'register.html', context)
-
 
 
 
@@ -188,7 +187,12 @@ def user_list_view(request):
         messages.error(request, "You don't have permission to view this page")
         return redirect('profile')
     
-    return render(request, 'user_list.html', {'users': users})
+    
+    paginator = Paginator(users, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'user_list.html', {'page_obj': page_obj})
 
 
 @login_required
@@ -285,8 +289,7 @@ def delete_user_view(request, user_id):
                 messages.error(request, "Cannot delete the last active admin")
                 return redirect('user_list')
         
-        user_to_delete.delete()
-        messages.success(request, "User deleted successfully")
+        user_to_delete.delete()        
         
     except User.DoesNotExist:
         messages.error(request, "User not found")
